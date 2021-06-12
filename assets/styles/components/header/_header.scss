@@ -1,0 +1,25 @@
+.section-header {
+  box-shadow: 0px 0px 10px $black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 500;
+  background-color: $white;
+  .header-nav {
+    display: flex;
+    li {
+      list-style: none;
+      padding: 20px 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      @include hover(normal) {
+        color: $red;
+      }
+    }
+    .header-nav-active {
+      color: $red;
+      text-decoration: underline;
+    }
+  }
+}
