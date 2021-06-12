@@ -212,11 +212,16 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
   }
 
   deleteCompany() {
+    if (this.currnetCompany.tabs.length == 0) {
+      this._firestore.deleteCompany(this.currnetCompany.id).then(() => {
+        this.resetDeletePopup();
+      });    
+    }
     let promise = new Promise<void>(resolve => {
       for (let i = 0; i < this.currnetCompany.tabs.length; i++) {        
         this._firestore.deleteCompanyTab(this.currnetCompany.id, this.currnetCompany.tabs[i].id)
         .then(() => {
-          if (!this.currnetCompany.tabs.length) {
+          if (this.currnetCompany.tabs.length == 0) {
             resolve()
           }          
         })
@@ -224,7 +229,7 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
     })
     promise.then(() => {
       this._firestore.deleteCompany(this.currnetCompany.id).then(() => {
-        this.resetDeletePopup();
+        this.resetDeletePopup();   
       });      
     })
   }
