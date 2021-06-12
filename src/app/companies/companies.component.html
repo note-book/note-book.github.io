@@ -1,0 +1,65 @@
+<section>
+    <article *ngIf="companies?.length" class="container all-companies">
+        <article class="all-companies__names">
+            <article (click)="activeCompany(company.id)" class="all-companies__names__name"
+                *ngFor="let company of companies" [ngClass]="currentCompany == company.id ? 'active-tab' : ''">
+                {{company.name}}
+            </article>
+        </article>
+        <article class="all-companies__tabs">
+            <article>
+                <article *ngFor="let company of companies">
+                    <article class="all-companies__tabs__tab" *ngIf="currentCompany == company.id">
+                        <article (click)="activeTab(tab.id)" *ngFor="let tab of company.tabs"
+                            [ngClass]="currentTab == tab.id ? 'active-tab' : ''">
+                            {{tab.tabName}}
+                        </article>
+                    </article>
+                </article>
+            </article>
+            <article>
+                <article *ngFor="let company of companies">
+                    <article class="all-companies__tabs__descriptions" *ngFor="let tab of company.tabs">
+                        <article class="description" *ngIf="currentTab == tab.id && currentCompany == company.id">
+                            <article [innerHTML]="tab.tabDescription | replace: '<p></p>' : '<p><br></p>'"></article>
+                            <button class="btn green-btn description-edit-btn"
+                                (click)="editDescription(company.id, tab.id, tab.tabDescription)">Edit</button>
+                        </article>
+                    </article>
+                </article>
+            </article>
+        </article>
+    </article>
+    <article class="container" *ngIf="!companies?.length">
+        <p>No records added</p>
+    </article>
+</section>
+
+<section class="edit-desc-section" *ngIf="isInEditMode">
+    <form class="edit-desc-form" [formGroup]="tabDescriptionForm" (ngSubmit)="submitChange()">
+        <article class="edit-desc-form__text-area">
+            <article class="NgxEditor__Wrapper">
+                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                <ngx-editor [placeholder]="'Add your description...'" [editor]="editor" name="tabDescription"formControlName="tabDescription"></ngx-editor>
+            </article>
+        </article>
+        <article class="edit-desc-form__btns">
+            <button class="btn green-btn" type="submit">Save & Exit</button>
+            <button class="btn  green-btn" type="button" (click)="save()">Save Only</button>
+            <button class="btn red-btn" type="button" (click)="closelPopup()">Close</button>
+        </article>
+    </form>
+</section>
+
+<section class="unsave-section" *ngIf="unsavedChangesPupup">
+    <article class="container unsave-popup-wrapper">
+        <article class="unsave-popup">
+            <p>You have unsaved changes, do you want to exit anyway?</p>
+            <article class="unsave-popup__btns">
+                <button class="btn red-btn" (click)="resetForm()">Yes</button>
+                <button class="btn green-btn" (click)="submitChange()">Save and exit</button>
+                <button class="btn blue-btn" (click)="unsavedChangesPupup=false">Back to the edit</button>
+            </article>
+        </article>
+    </article>
+</section>

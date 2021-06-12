@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  @include rubik;
+}
+
+body {
+  min-width: 360px;
+  font-size: 15px;
+  padding-top: 90px;
+  @include scrollbar(body);
+}
+
+::selection {
+  background: $blue;
+  color: $white;
+}
+
+.container {
+  max-width: 1920px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+img {
+  user-select: none;
+}
+
+.btn {
+  @include btn;
+}
+
+input {
+  outline: none;
+  border: 1px solid $light-gray;
+  border-radius: 3px;
+  @include inputNoArrows;
+}
+
+button:disabled {
+  background-color: $gray !important;
+  cursor: not-allowed;
+}
+
+.green-btn {
+  background-color: $green;
+  @include hover(normal) {
+    background-color: darken($green, 10%);
+  }
+}
+
+.red-btn {
+  background-color: $red;
+  @include hover(normal) {
+    background-color: darken($red, 10%);
+  }
+}
+
+.gray-btn {
+  background-color: $gray;
+  @include hover(normal) {
+    background-color: darken($gray, 10%);
+  }
+}
+
+.blue-btn {
+    background-color: $blue;
+    @include hover(normal) {
+      background-color: darken($blue, 10%);
+    }
+  }
+
+h1 {
+  font-size: 30px !important;
+}
+h2 {
+  font-size: 28px !important;
+}
+h3 {
+  font-size: 26px !important;
+}
+h4 {
+  font-size: 24px !important;
+}
+h5 {
+  font-size: 22px !important;
+}
+h6 {
+  font-size: 20px !important;
+}

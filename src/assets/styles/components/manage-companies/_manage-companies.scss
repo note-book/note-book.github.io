@@ -1,0 +1,173 @@
+.company-bts {
+  margin-bottom: 20px;
+  &__addcompany {
+    margin-right: 10px;
+  }
+  .pressed {
+    background-color: darken($red, 10%);
+  }
+}
+
+.companies {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid $light-gray;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  min-height: 52px;
+  .cross-btn {
+    border-radius: 50%;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+  }
+  &__company {
+    width: 150px;
+    padding: 10px 0;
+    display: flex;
+  }
+  &__tabs {    
+    display: flex;
+    align-items: center;
+    width: calc(100% - 150px - 50px);
+    margin-top: 6px;    
+    overflow-x: scroll;
+    @include scrollbar(normal);
+    &__tab {
+      padding: 10px 0;
+      margin-right: 40px;
+      min-width: 100px;
+      display: flex;
+    }
+  }
+  &__edit {
+    width: 50px;
+    text-align: center;
+  }
+}
+
+.delete-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($black, .3);
+  z-index: 600;
+  &__wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .delete-popup {
+      width: 340px;
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid $red;
+      background-color: $white;
+      p {
+        text-align: center;
+      }
+      &__btns {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+      }
+      &__red-text {
+        color: $red;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.add-company-section {
+  position: fixed;
+  z-index: 600;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($black, .3);
+  &__wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .add-company-form {
+    padding: 10px;
+    width: 340px;
+    box-sizing: border-box;
+    background-color: $white;
+    border: 1px solid $red;
+    border-radius: 5px;
+    color: $green;
+    &__name {
+      margin-bottom: 20px;
+      label, input{
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      label {
+        margin-bottom: 10px;
+      }
+      input {
+        padding: 5px;
+      }
+    }
+    &__tabs {
+      margin-bottom: 10px;
+      &__tab {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 10px;
+        label {
+          margin-bottom: 10px;
+          display: block;
+        }
+        input {
+          padding: 5px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .tab-name {
+          width: 60%;
+        }
+        .tab-order {
+          width: 25%;
+        }
+        .tab-btn {
+          width: 27px;
+          height: 27px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    &__add-tab-btn{
+      margin-bottom: 20px;
+    }
+    &__control-btns {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+  }
+}
+
+.add-desc {
+  
+}

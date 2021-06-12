@@ -1,0 +1,140 @@
+.all-companies {
+  position: relative;
+  display: flex;
+  height: calc(100vh - 135px);
+  .active-tab {
+    color: $red;
+    text-decoration: underline;
+  }
+  &__names {
+    border: 1px solid $light-gray;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 150px;
+    padding: 10px;
+    overflow-y: auto;
+    @include scrollbar(normal);
+    &__name {
+      margin-bottom: 10px;
+      cursor: pointer;
+      @include hover(normal) {
+        color: $red;
+      }
+    }
+  }
+  &__tabs {
+    width: calc(100% - 150px);
+    border: 1px solid $light-gray;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: none;
+    &__tab {
+      display: flex;
+      border-bottom: 1px solid $light-gray;
+      overflow-x: auto;
+      @include scrollbar(normal);
+      article {
+        padding: 10px;
+        cursor: pointer;
+        @include hover(normal) {
+          color: $red;
+        }
+      }
+    }
+    &__descriptions {
+      .description {
+        height: calc(100vh - 197px);
+        padding: 10px;
+        white-space: pre-line;
+        overflow-y: auto;
+        @include scrollbar(normal);
+        .description-edit-btn {
+          position: absolute;
+          bottom: -40px;
+          right: 20px;
+        }
+      }
+    }
+  }
+}
+
+.unsave-section {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 600;
+  background-color: rgba($black, 0.3);
+  .unsave-popup-wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .unsave-popup {
+      width: 340px;
+      box-sizing: border-box;
+      background-color: $white;
+      border: 1px solid $red;
+      border-radius: 5px;
+      padding: 10px;
+      &__btns {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      p {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.edit-desc-section {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 600;
+  background-color: rgba($black, 0.3);
+  .edit-desc-form {
+    width: 100vw;
+    height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+    &__text-area {
+      .NgxEditor__Wrapper {
+        height: calc(100vh - 58px);
+        .NgxEditor__Content {
+          height: calc(100vh - 110px);
+          overflow-y: auto;
+          @include scrollbar(normal)
+        }
+      }
+    }
+    &__btns {
+      margin-top: 5px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      button:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+
+.description p{
+  // line-height: 12px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 30px;
+}

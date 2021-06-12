@@ -1,0 +1,79 @@
+<section>
+  <article class="container">
+    <article class="company-bts">
+      <button class="btn green-btn company-bts__addcompany" (click)="showCompanyForm=true">Add new company</button>
+      <button [ngClass]="isInEditMode ? 'pressed' : ''" class="btn red-btn" (click)="isInEditMode=!isInEditMode">{{isInEditMode ? "Disable" : "Enable"}} Delete Buttons</button>
+    </article>
+    <article class="companies" *ngFor="let company of companies">
+      <article class="companies__company">
+        <article>
+          {{company.name}}
+        </article>
+        <button *ngIf="isInEditMode" class="btn red-btn cross-btn" (click)="confirmToDelete('company', company)">X</button>
+      </article>
+      <article class="companies__tabs">
+        <article class="companies__tabs__tab" *ngFor="let tab of company.tabs">
+          <article>
+            {{tab.tabName}}
+          </article>
+          <button *ngIf="isInEditMode" class="btn red-btn cross-btn" (click)="confirmToDelete('tab', company, tab.id, tab.tabName)">X</button>
+        </article>
+      </article>
+      <article class="companies__edit">
+        <button class="btn green-btn" (click)="edit(company)">Edit</button>
+      </article>
+    </article>
+    <article *ngIf="companies?.length==0">
+      <p>No records added</p>
+    </article>
+  </article>
+</section>
+
+<section class="add-company-section" *ngIf="showCompanyForm || editMode">
+  <article class="add-company-section__wrapper">
+    <form class="add-company-form" [formGroup]="addCompanyForm" (ngSubmit)="editMode ? saveChanges(addCompanyForm) : addCompany(addCompanyForm)">
+      <article class="add-company-form__name">
+        <label for="name">Company name</label>
+        <input type="text" name="name" formControlName="name">
+      </article>
+      <article class="add-company-form__tabs" formArrayName="tabs">
+        <article *ngFor="let tabsControls of getControls(); let i = index" [formGroupName]="i">
+          <article class="add-company-form__tabs__tab">
+            <article class="tab-name">
+              <label for="tab">Tab name</label>
+              <input type="text" name="tabName" formControlName="tabName">
+            </article>
+            <article class="tab-order">
+              <label for="order">Tab order</label>
+              <input type="number" name="tabOrder" formControlName="tabOrder">
+            </article>
+            <button class="btn red-btn tab-btn" *ngIf="!editMode" (click)="deleteTab(i)">X</button>
+            <button class="btn red-btn tab-btn" *ngIf="editMode && currnetCompany.tabs.length<i+1" (click)="deleteTab(i)">X</button>
+          </article>
+        </article>
+      </article>
+      <article class="add-company-form__add-tab-btn">
+        <button class="btn green-btn" type="button" (click)="addNewTab()">Add tab</button>
+      </article>
+      <article class="add-company-form__control-btns">
+        <button class="btn green-btn" type="submit" [disabled]="addCompanyForm.invalid">{{editMode ? "Save Changes" : "Add Compay"}}</button>
+        <button class="btn red-btn" type="button" (click)="cancelCompanyForm()">Cancel</button>
+      </article>
+    </form>
+  </article>
+</section>
+
+<section class="delete-section" *ngIf="deletePopup">
+  <article class="delete-section__wrapper">
+    <article class="delete-popup">
+      <p>Are you sure you want to delete
+        <span *ngIf="deleteParameter=='company'">company <span class="delete-popup__red-text">{{currnetCompany.name}}</span></span>
+        <span *ngIf="deleteParameter=='tab'">tab <span class="delete-popup__red-text">{{currentTabName}}</span> of company <span class="delete-popup__red-text">{{currnetCompany.name}}</span></span>?
+      </p>
+      <article class="delete-popup__btns">
+        <button class="btn red-btn" (click)="deleteParameter=='company' ? deleteCompany() : deleteCompanyTab()">Delete</button>
+        <button class="btn red-btn" (click)="resetDeletePopup()">Cancel</button>
+      </article>
+    </article>
+  </article>
+</section>
