@@ -212,6 +212,10 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
   }
 
   deleteCompany() {
+    if (localStorage.getItem('company') == this.currnetCompany.id) {
+      localStorage.removeItem('company');
+      localStorage.removeItem('tab');
+    }
     if (this.currnetCompany.tabs.length == 0) {
       this._firestore.deleteCompany(this.currnetCompany.id).then(() => {
         this.resetDeletePopup();
@@ -236,10 +240,13 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
 
   deleteCompanyTab() {
     this._firestore
-      .deleteCompanyTab(this.currnetCompany.id, this.currentTabId)
-      .then(() => {
-        this.resetDeletePopup();
-      });
+    .deleteCompanyTab(this.currnetCompany.id, this.currentTabId)
+    .then(() => {
+      if (localStorage.getItem('tab') == this.currentTabId && this.currnetCompany.tabs.length > 0) {
+        localStorage.setItem('tab', this.currnetCompany.tabs[0].id)
+      }      
+      this.resetDeletePopup();
+    });
   }
 
   resetDeletePopup() {
