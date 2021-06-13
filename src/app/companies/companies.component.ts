@@ -129,9 +129,11 @@ export class CompaniesComponent implements OnInit, OnDestroy {
     this.editor.destroy();
   }
 
-  activeCompany(companyId: any) {
-    this.currentCompany = companyId;
-    localStorage.setItem('company', companyId);
+  activeCompany(company: any) {
+    this.currentCompany = company.id;
+    this.currentTab = company.tabs[0].id;
+    localStorage.setItem('company', this.currentCompany);
+    localStorage.setItem('tab', this.currentTab);
   }
 
   activeTab(tabId: any) {

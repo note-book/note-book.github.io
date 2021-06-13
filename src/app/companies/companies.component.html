@@ -1,7 +1,7 @@
 <section>
     <article *ngIf="companies?.length" class="container all-companies">
         <article class="all-companies__names">
-            <article (click)="activeCompany(company.id)" class="all-companies__names__name"
+            <article (click)="activeCompany(company)" class="all-companies__names__name"
                 *ngFor="let company of companies" [ngClass]="currentCompany == company.id ? 'active-tab' : ''">
                 {{company.name}}
             </article>
