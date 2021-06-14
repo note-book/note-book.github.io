@@ -63,7 +63,7 @@ export class CompaniesComponent implements OnInit, OnDestroy {
           tabs.sort(function(a, b) {
             return a.tabOrder - b.tabOrder;
           })
-          if (!localStorage.getItem('tab')) {
+          if (!localStorage.getItem('tab') && tabs.length) {
             this.currentTab = tabs[0].id;
             localStorage.setItem('tab', this.currentTab);
           } else {
