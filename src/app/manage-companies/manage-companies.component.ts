@@ -100,13 +100,31 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
   saveChanges(addCompanyForm: FormGroup) {
     if (this.addCompanyForm.invalid) {
       return;
-    }
+    }    
 
     const id = this.currnetCompany.id;
     const name = addCompanyForm.value.name;
     const company: Company = { id, name };
 
     const tabs = addCompanyForm.value.tabs;
+    
+    if (this.currentTabIds.length == 0) {
+      for (let i = 0; i < tabs.length; i++) {
+        const newIdTab = this._generateId.generateId();
+        const tabDescription = '<p></p>';
+        const tabName = tabs[i].tabName;
+        const tabOrder = tabs[i].tabOrder;
+        const newTab = {tabName, tabOrder, tabDescription};
+
+        this._firestore.addCompanyTabs(id, newIdTab, newTab).then(() => {
+          if (i == tabs.length - 1) {                
+            this.resetCompanyForm(tabs.length);
+            this.currnetCompany = [];
+            this.currentTabIds = [];
+          }
+        });
+      }
+    }
 
     this._firestore.editCompany(id, company).then(() => {
       let afterTabsChangePromise = new Promise<void>((resolve) => {
@@ -117,7 +135,7 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
           const currentTab: Tabs = { tabName, tabOrder };
           this._firestore.editCompanyTabs(id, tabId, currentTab).then(() => {
             if (i == this.currentTabIds.length - 1) {
-              resolve();              
+              resolve();
             }
           });
         }
