@@ -110,7 +110,6 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
     
     if (this.currentTabIds.length == 0) {
       for (let i = 0; i < tabs.length; i++) {
-        // test
         const newIdTab = this._generateId.generateId();
         const tabDescription = '<p></p>';
         const tabName = tabs[i].tabName;
