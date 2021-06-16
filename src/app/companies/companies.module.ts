@@ -6,6 +6,7 @@ import { CompaniesComponent } from './companies.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxEditorModule } from 'ngx-editor';
 import { ReplacePipe } from '../shared/pipe/replace.pipe';
+import { AuthGuardIn } from '../shared/services/authIn.guard.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { ReplacePipe } from '../shared/pipe/replace.pipe';
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      {path: '', component: CompaniesComponent}
+      {path: '', component: CompaniesComponent, canActivate: [AuthGuardIn]}
     ]),
     NgxEditorModule.forRoot({
       locals: {},

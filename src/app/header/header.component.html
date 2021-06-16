@@ -1,8 +1,11 @@
 <section class="section-header">
   <footer class="container">
     <ul class="header-nav">
-      <li [routerLink]="['/companies']" routerLinkActive="header-nav-active">Companies</li>
-      <li [routerLink]="['/manage-companies']" routerLinkActive="header-nav-active">Manage Companies</li>
+      <li [routerLink]="['/companies']" routerLinkActive="header-nav-active" *ngIf="isAuth">Companies</li>
+      <li [routerLink]="['/manage-companies']" routerLinkActive="header-nav-active" *ngIf="isAuth">Manage Companies</li>
+      <li *ngIf="isAuth">
+        <button class="btn red-btn" (click)="logout()">Logout</button>
+      </li>
     </ul>
   </footer>
 </section>

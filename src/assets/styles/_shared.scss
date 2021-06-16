@@ -43,6 +43,10 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.login-btn:disabled {
+  background-color: $red !important;
+}
+
 .green-btn {
   background-color: $green;
   @include hover(normal) {

@@ -5,6 +5,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/companies', pathMatch: 'full'},
   {path: 'companies', loadChildren: () => import ('./companies/companies.module').then(m => m.CompaniesModule)},
   {path: 'manage-companies', loadChildren: () => import ('./manage-companies/manage-companies.module').then(m => m.ManageCompaniesModule)},
+  {path: 'login', loadChildren: () => import ('./signin/signin.module').then(m => m.SigninModule)},
   {path: '**', redirectTo: '/companies'}
 ];
 

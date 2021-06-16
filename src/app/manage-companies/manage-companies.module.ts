@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { ManageCompaniesComponent } from './manage-companies.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthGuardIn } from '../shared/services/authIn.guard.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      {path: '', component: ManageCompaniesComponent}
+      {path: '', component: ManageCompaniesComponent, canActivate: [AuthGuardIn]}
     ])
   ]
 })
