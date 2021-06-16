@@ -17,6 +17,9 @@
         color: $red;
       }
     }
+    li:last-of-type {
+      margin-left: auto;
+    }
     .header-nav-active {
       color: $red;
       text-decoration: underline;

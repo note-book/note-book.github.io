@@ -17,6 +17,18 @@
   }
 }
 
+@mixin signFormBackround {
+  background-color: $red;
+  background-size: contain;
+  background-position: center;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  width: 50px;
+  border-radius: 3px 0 0 3px;
+  padding: 7px;
+  box-sizing: border-box;
+}
+
 @mixin scrollbar($scrollbar) {
   // -webkit-
   &::-webkit-scrollbar {
