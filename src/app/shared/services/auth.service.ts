@@ -1,117 +1,97 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth'
 
-import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
-
-export interface AuthRess {
-  idToken: string,
-  email: string,
-  refreshToken: string,
-  expiresIn: string,
-  localId: string,
-  registered?: boolean
-}
 
 @Injectable({providedIn: 'root'})
 export class AuthService{
-  user = new BehaviorSubject<any>(null);
-  tokenExpTimer: any;
+  user = new BehaviorSubject<User>(null!);
+  errorMsgSubject = new BehaviorSubject<string>('');
+  errorMsg: string = '';
 
   constructor(
-    private http: HttpClient, 
-    private router: Router
+    private router: Router,
+    private _firebaseAuth: AngularFireAuth
   ){}
 
-  signUp(email: string, password: string){
-    return this.http.post<AuthRess>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseConfig.apiKey,
-    {
-      email: email,
-      password: password,
-      returnSecureToken: true
-    }).pipe(
-      catchError(this.errorHandler),
-      tap(ressData => {
-        this.handleAuth(ressData.email, ressData.localId, ressData.idToken, +ressData.expiresIn)
-      }));
-  }
-
   signIn(email: string, password: string){
-    return this.http.post<AuthRess>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseConfig.apiKey,
-    {
-      email: email,
-      password: password,
-      returnSecureToken: true
-    }).pipe(
-      catchError(this.errorHandler),
-      tap(ressData => {
-        this.handleAuth(ressData.email, ressData.localId, ressData.idToken, +ressData.expiresIn)
-      }));
+    this._firebaseAuth.signInWithEmailAndPassword(email, password)
+    .then(user => {
+      this.handleAuth(user.user?.email!, user.user?.uid!, user.user?.refreshToken!)
+      this.router.navigate(['/companies']);
+      this.errorMsg = '';
+      this.errorMsgSubject.next(this.errorMsg);
+    }, error => {
+      this.errorHandler(error);
+    })
   }
 
   logout(){
-    this.user.next(null);
-    localStorage.removeItem('userData');
-    this.router.navigate(['login'])
-    if(this.tokenExpTimer){
-      clearTimeout(this.tokenExpTimer);      
-    }
-    this.tokenExpTimer = null;
+    this._firebaseAuth.signOut().then(() => {
+      this.user.next(null!);
+      this.router.navigate(['/login']);
+      localStorage.removeItem('userData');
+    })
   }
 
   autoLogin(){ 
     const userData: {
       email: string,
       id: string,
-      _tokenId: string,
-      _tokenExpTime: string
+      refreshToken: string,
     } = JSON.parse(localStorage.getItem('userData')!);
+
     if(!userData){     
       return;
     }
+    
     const loadedUser = new User(
       userData.email,
       userData.id,
-      userData._tokenId,
-      new Date(userData._tokenExpTime)
+      userData.refreshToken
     )
-    if(loadedUser.token){
-      this.user.next(loadedUser);
-      const expDuration = new Date(userData._tokenExpTime).getTime() - new Date().getTime();
-      this.autoLogout(expDuration)
-    }
-  }
 
-  autoLogout(expDuration: number){
-    this.tokenExpTimer = setTimeout(() =>{
-      this.logout();
-    }, expDuration)
-  }
+    this.handleAuth(loadedUser.email, loadedUser.id, loadedUser.refreshToken);
 
-  private errorHandler(errorRess: HttpErrorResponse){
-    let errorMsg = 'Unknown Error!';
-    if (!errorRess.error || !errorRess.error.error){
-     return throwError(errorMsg);
-    } else{
-      switch(errorRess.error.error.message){
-        case 'EMAIL_EXISTS': errorMsg = 'Already has a registration with this email!';
-         break;
-        case 'EMAIL_NOT_FOUND': errorMsg = 'Wrong email or password!';
-         break;
-        case 'INVALID_PASSWORD': errorMsg = 'Wrong email or password!';
+    this._firebaseAuth.onAuthStateChanged(user => {
+      if(user?.email == loadedUser.email && user.uid == loadedUser.id && user.refreshToken == loadedUser.refreshToken) {
+        // this.handleAuth(loadedUser.email, loadedUser.id, loadedUser.refreshToken)
+      } else {
+        this.logout();
       }
-      return throwError(errorMsg);
+    })
+  }
+
+  errorHandler(error: any){
+    switch(error.code){
+      case 'auth/email-already-exists': {
+        this.errorMsg = 'Already has a registration with this email!';
+        this.errorMsgSubject.next(this.errorMsg);
+        break;
+      }
+      case 'auth/user-not-found': {
+        this.errorMsg = 'Wrong email or password!';
+        this.errorMsgSubject.next(this.errorMsg);
+        break;
+      }
+      case 'auth/wrong-password': {
+        this.errorMsg = 'Wrong email or password!';
+        this.errorMsgSubject.next(this.errorMsg);
+        break;
+      }
+      default: {
+        this.errorMsg = 'Unknown Error';
+        this.errorMsgSubject.next(this.errorMsg);
+        break
+      }      
     }
   }
 
-  private handleAuth(email:string, id: string, tokenId: string, tokenExpIn: number){
-    const tokenExpTime = new Date(new Date().getTime() + tokenExpIn*1000);
-    const user = new User(email, id, tokenId, tokenExpTime);
+  handleAuth(email:string, id: string, refreshToken: string){
+    const user = new User(email, id, refreshToken);
     this.user.next(user);
-    this.autoLogout(tokenExpIn*1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 }

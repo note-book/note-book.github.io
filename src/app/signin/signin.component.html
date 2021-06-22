@@ -50,8 +50,8 @@
       </ul>
     </div>
     <div>
-      <button class="btn red-btn login-btn" type="submit" [disabled]="!signinForm.valid">Sign in</button>
-      <p *ngIf="errorMsgOnSubmit" class="error-msg">{{ errorMsgOnSubmit }}</p>
+      <button class="btn red-btn login-btn" type="submit">Sign in</button>
+      <p *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</p>
     </div>    
   </form>
 </div>

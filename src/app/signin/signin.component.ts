@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {  Subscription } from 'rxjs';
 
 import { AuthService } from '../shared/services/auth.service';
 
@@ -10,13 +10,12 @@ import { AuthService } from '../shared/services/auth.service';
   styles: []
 })
 export class SigninComponent implements OnInit {
+  errorMsgSubscription!: Subscription;
+  errorMsg: string = '';
   signinForm!: FormGroup;
-  errorMsgOnSubmit: string = '';
-  isLoading: boolean = false;
 
   constructor(
-    private authService: AuthService, 
-    private router: Router
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -24,19 +23,15 @@ export class SigninComponent implements OnInit {
       email: new FormControl (null, [Validators.required, Validators.email]),
       password: new FormControl (null, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]),
     });
+
+    this.errorMsgSubscription = this.authService.errorMsgSubject.subscribe(error => {
+      this.errorMsg = error;
+    })
   }
 
   onSubmit(signinForm: FormGroup){
-    this.isLoading = true;
     const email = signinForm.value.email;
     const password =  signinForm.value.password;
-    this.authService.signIn(email, password).subscribe(() => {      
-      this.errorMsgOnSubmit = '';
-      this.router.navigate(['/companies']);
-      this.isLoading = false;
-    }, error => {      
-      this.errorMsgOnSubmit = error; 
-      this.isLoading = false;
-    });
+    this.authService.signIn(email, password);
   }
 }
