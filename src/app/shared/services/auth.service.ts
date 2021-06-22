@@ -56,10 +56,9 @@ export class AuthService{
     this.handleAuth(loadedUser.email, loadedUser.id, loadedUser.refreshToken);
 
     this._firebaseAuth.onAuthStateChanged(user => {
-      if(user?.email == loadedUser.email && user.uid == loadedUser.id && user.refreshToken == loadedUser.refreshToken) {
-        // this.handleAuth(loadedUser.email, loadedUser.id, loadedUser.refreshToken)
-      } else {
+      if(user?.email !== loadedUser.email || user.uid !== loadedUser.id || user.refreshToken !== loadedUser.refreshToken) {
         this.logout();
+        return;
       }
     })
   }
