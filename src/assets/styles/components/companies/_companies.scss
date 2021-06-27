@@ -53,6 +53,9 @@
           bottom: -40px;
           right: 20px;
         }
+        ol {
+          padding-left: 20px !important;
+        }
       }
     }
   }
@@ -110,7 +113,10 @@
         .NgxEditor__Content {
           height: calc(100vh - 110px);
           overflow-y: auto;
-          @include scrollbar(normal)
+          @include scrollbar(normal);
+          ol {
+            padding-left: 20px !important;
+          }
         }
       }
     }
@@ -124,11 +130,6 @@
       }
     }
   }
-}
-
-
-.description p{
-  // line-height: 12px;
 }
 
 h1 {
