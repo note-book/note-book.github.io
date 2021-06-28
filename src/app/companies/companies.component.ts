@@ -28,7 +28,8 @@ export class CompaniesComponent implements OnInit, OnDestroy {
   html!: any;
   toolbar: Toolbar = [
     ['bold', 'italic', 'underline'],
-    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }]
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['ordered_list', 'bullet_list'],
   ];
 
   constructor(
