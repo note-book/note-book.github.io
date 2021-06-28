@@ -55,6 +55,12 @@
         }
         ol {
           padding-left: 20px !important;
+          li {
+            margin-bottom: 10px;
+            p {
+              margin: 0;
+            }
+          }
         }
       }
     }
@@ -116,12 +122,18 @@
           @include scrollbar(normal);
           ol {
             padding-left: 20px !important;
+            li {
+              margin-bottom: 10px;
+            }
+          }
+          p {
+            margin: 0;
           }
         }
       }
     }
     &__btns {
-      margin-top: 5px;
+      margin-top: 6px;
         display: flex;
         justify-content: flex-end;
         align-items: center;

@@ -28,7 +28,12 @@ img {
 }
 
 .btn {
-  @include btn;
+  @include btn;  
+  min-width: 100px;
+}
+
+.btn-narrow {
+  min-width: auto;
 }
 
 input {
