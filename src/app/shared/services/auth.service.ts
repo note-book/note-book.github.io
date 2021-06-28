@@ -19,24 +19,24 @@ export class AuthService{
   signIn(email: string, password: string){
     this._firebaseAuth.signInWithEmailAndPassword(email, password)
     .then(user => {
-      this.handleAuth(user.user?.email!, user.user?.uid!, user.user?.refreshToken!)
+      this.handleAuth(user.user?.email!, user.user?.uid!, user.user?.refreshToken!);
       this.router.navigate(['/companies']);
       this.errorMsg = '';
       this.errorMsgSubject.next(this.errorMsg);
     }, error => {
-      this.errorHandler(error);
+      this.errorHandler(error);      
     })
   }
 
   logout(){
     this._firebaseAuth.signOut().then(() => {
       this.user.next(null!);
-      this.router.navigate(['/login']);
       localStorage.removeItem('userData');
+      this.router.navigate(['/login']);
     })
   }
 
-  autoLogin(){ 
+  autoLogin(){
     const userData: {
       email: string,
       id: string,
@@ -58,7 +58,6 @@ export class AuthService{
     this._firebaseAuth.onAuthStateChanged(user => {
       if(user?.email !== loadedUser.email || user.uid !== loadedUser.id || user.refreshToken !== loadedUser.refreshToken) {
         this.logout();
-        return;
       }
     })
   }

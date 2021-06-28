@@ -23,7 +23,8 @@
                         <article class="description" *ngIf="currentTab == tab.id && currentCompany == company.id">
                             <article [innerHTML]="tab.tabDescription | replace: '<p></p>' : '<p><br></p>'"></article>
                             <button class="btn green-btn description-edit-btn"
-                                (click)="editDescription(company.id, tab.id, tab.tabDescription)">Edit</button>
+                                (click)="editDescription(company.id, tab.id, tab.tabDescription)"
+                                *ngIf="!isInEditMode">Edit</button>
                         </article>
                     </article>
                 </article>
@@ -57,8 +58,8 @@
             <p>You have unsaved changes, do you want to exit anyway?</p>
             <article class="unsave-popup__btns">
                 <button class="btn red-btn" (click)="resetForm()">Yes</button>
-                <button class="btn green-btn" (click)="submitChange()">Save and exit</button>
-                <button class="btn blue-btn" (click)="unsavedChangesPupup=false">Back to the edit</button>
+                <button class="btn green-btn" (click)="submitChange()">Save & Exit</button>
+                <button class="btn blue-btn" (click)="unsavedChangesPupup=false">Back to Edit</button>
             </article>
         </article>
     </article>

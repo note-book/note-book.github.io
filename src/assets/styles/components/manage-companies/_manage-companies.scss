@@ -28,9 +28,13 @@
     margin-left: 5px;
   }
   &__company {
-    width: 150px;
+    width: 175px;
     padding: 10px 0;
     display: flex;
+    align-items: center;
+    &__name {
+      width: 140px;
+    }
   }
   &__tabs {    
     display: flex;
