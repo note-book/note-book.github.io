@@ -53,8 +53,14 @@
           bottom: -40px;
           right: 20px;
         }
-        ol {
+        ol, ul {
           padding-left: 20px !important;
+          li {
+            margin-bottom: 10px;
+            p {
+              margin: 0;
+            }
+          }
         }
       }
     }
@@ -114,14 +120,20 @@
           height: calc(100vh - 110px);
           overflow-y: auto;
           @include scrollbar(normal);
-          ol {
+          ol, ul {
             padding-left: 20px !important;
+            li {
+              margin-bottom: 10px;
+            }
+          }
+          p {
+            margin: 0;
           }
         }
       }
     }
     &__btns {
-      margin-top: 5px;
+      margin-top: 6px;
         display: flex;
         justify-content: flex-end;
         align-items: center;

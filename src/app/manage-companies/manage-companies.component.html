@@ -6,21 +6,21 @@
     </article>
     <article class="companies" *ngFor="let company of companies">
       <article class="companies__company">
-        <article>
+        <article class="companies__company__name">
           {{company.name}}
         </article>
-        <button *ngIf="isInEditMode" class="btn red-btn cross-btn" (click)="confirmToDelete('company', company)">X</button>
+        <button *ngIf="isInEditMode" class="btn btn-narrow red-btn cross-btn" (click)="confirmToDelete('company', company)">X</button>
       </article>
       <article class="companies__tabs">
         <article class="companies__tabs__tab" *ngFor="let tab of company.tabs">
           <article>
             {{tab.tabName}}
           </article>
-          <button *ngIf="isInEditMode" class="btn red-btn cross-btn" (click)="confirmToDelete('tab', company, tab.id, tab.tabName)">X</button>
+          <button *ngIf="isInEditMode" class="btn btn-narrow red-btn cross-btn" (click)="confirmToDelete('tab', company, tab.id, tab.tabName)">X</button>
         </article>
       </article>
       <article class="companies__edit">
-        <button class="btn green-btn" (click)="edit(company)">Edit</button>
+        <button class="btn btn-narrow green-btn" (click)="edit(company)">Edit</button>
       </article>
     </article>
     <article *ngIf="companies?.length==0">
@@ -47,8 +47,8 @@
               <label for="order">Tab order</label>
               <input type="number" name="tabOrder" formControlName="tabOrder">
             </article>
-            <button class="btn red-btn tab-btn" *ngIf="!editMode" (click)="deleteTab(i)">X</button>
-            <button class="btn red-btn tab-btn" *ngIf="editMode && currnetCompany.tabs.length<i+1" (click)="deleteTab(i)">X</button>
+            <button class="btn btn-narrow red-btn tab-btn" *ngIf="!editMode" (click)="deleteTab(i)">X</button>
+            <button class="btn btn-narrow red-btn tab-btn" *ngIf="editMode && currnetCompany.tabs.length<i+1" (click)="deleteTab(i)">X</button>
           </article>
         </article>
       </article>

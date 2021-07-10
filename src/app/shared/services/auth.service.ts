@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth'
 
@@ -10,6 +10,7 @@ export class AuthService{
   user = new BehaviorSubject<User>(null!);
   errorMsgSubject = new BehaviorSubject<string>('');
   errorMsg: string = '';
+  authStateSubscription!: Subscription;
 
   constructor(
     private router: Router,
@@ -19,24 +20,24 @@ export class AuthService{
   signIn(email: string, password: string){
     this._firebaseAuth.signInWithEmailAndPassword(email, password)
     .then(user => {
-      this.handleAuth(user.user?.email!, user.user?.uid!, user.user?.refreshToken!)
+      this.handleAuth(user.user?.email!, user.user?.uid!, user.user?.refreshToken!);
       this.router.navigate(['/companies']);
       this.errorMsg = '';
-      this.errorMsgSubject.next(this.errorMsg);
+      this.errorMsgSubject.next(this.errorMsg);      
     }, error => {
-      this.errorHandler(error);
+      this.errorHandler(error);      
     })
   }
 
   logout(){
     this._firebaseAuth.signOut().then(() => {
       this.user.next(null!);
-      this.router.navigate(['/login']);
       localStorage.removeItem('userData');
+      this.router.navigate(['/login']);
     })
   }
 
-  autoLogin(){ 
+  autoLogin(){
     const userData: {
       email: string,
       id: string,
@@ -54,11 +55,11 @@ export class AuthService{
     )
 
     this.handleAuth(loadedUser.email, loadedUser.id, loadedUser.refreshToken);
-
-    this._firebaseAuth.onAuthStateChanged(user => {
+   
+    this.authStateSubscription = this._firebaseAuth.authState.subscribe(user => {
       if(user?.email !== loadedUser.email || user.uid !== loadedUser.id || user.refreshToken !== loadedUser.refreshToken) {
         this.logout();
-        return;
+        this.authStateSubscription.unsubscribe();
       }
     })
   }
