@@ -36,6 +36,7 @@
       article {
         padding: 10px;
         cursor: pointer;
+        white-space: nowrap;
         @include hover(normal) {
           color: $red;
         }
