@@ -21,10 +21,7 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
   companyTabs: FormArray = new FormArray([
     new FormGroup({
       tabName: new FormControl(null, Validators.required),
-      tabOrder: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^[1-9]+[1-9]*$/),
-      ]),
+      tabOrder: new FormControl(null, Validators.required),
     }),
   ]);
   isInEditMode: boolean = false;
@@ -184,10 +181,7 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
     (<FormArray>this.addCompanyForm.get('tabs')).push(
       new FormGroup({
         tabName: new FormControl(null, Validators.required),
-        tabOrder: new FormControl(null, [
-          Validators.required,
-          Validators.pattern(/^[1-9]+[1-9]*$/),
-        ]),
+        tabOrder: new FormControl(null, Validators.required),
       })
     );
   }
@@ -288,10 +282,7 @@ export class ManageCompaniesComponent implements OnInit, OnDestroy {
             company.tabs![i].tabName,
             Validators.required
           ),
-          tabOrder: new FormControl(company.tabs![i].tabOrder, [
-            Validators.required,
-            Validators.pattern(/^[1-9]+[1-9]*$/),
-          ]),
+          tabOrder: new FormControl(company.tabs![i].tabOrder, Validators.required),
         })
       );
     }

@@ -45,7 +45,7 @@
             </article>
             <article class="tab-order">
               <label for="order">Tab order</label>
-              <input type="number" min="1" max="9999" name="tabOrder" formControlName="tabOrder">
+              <input type="number" name="tabOrder" formControlName="tabOrder">
             </article>
             <button class="btn btn-narrow red-btn tab-btn" *ngIf="!editMode" (click)="deleteTab(i)">X</button>
             <button class="btn btn-narrow red-btn tab-btn" *ngIf="editMode && currnetCompany.tabs.length<i+1" (click)="deleteTab(i)">X</button>
